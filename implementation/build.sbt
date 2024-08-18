@@ -1,10 +1,8 @@
-
 name := "soot_hopper"
 organization := "edu.colorado.plv.bounder"
-version := "0.1"
+version := "0.0.2"
 mainClass in (Compile, run) := Some("edu.colorado.plv.bounder.Driver")
-scalaVersion := "2.13.8"
-
+scalaVersion := "2.13.14"
 
 resolvers += "Maven Central Server" at "https://repo1.maven.org/maven2"
 
@@ -24,7 +22,7 @@ libraryDependencies += "org.postgresql" % "postgresql" % "42.2.19"
 libraryDependencies += "org.scala-lang.modules" % "scala-parallel-collections_2.13" % "1.0.0" % "compile"
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.2"
 libraryDependencies += "org.scalatest" %% "scalatest-funsuite" % "3.2.2" % Test
-libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.3.3" %"compile"
+libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.3.3" % "compile"
 //libraryDependencies += "com.lihaoyi" %% "upickle" % "0.9.5"
 libraryDependencies += "com.lihaoyi" % "upickle_2.13" % "1.3.0"
 libraryDependencies += "com.github.pathikrit" % "better-files_2.13" % "3.9.1"
@@ -40,20 +38,19 @@ libraryDependencies += "io.github.andrebeat" %% "scala-pool" % "0.4.3"
 libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.32.0"
 // libraryDependencies += "org.apache.spark" % "spark-core_2.13" % "3.3.1"
 
-
 libraryDependencies ++= {
   Seq("org.slf4j" % "slf4j-log4j12" % "1.7.30")
 }.map(_.force())
 
 //// Clear out Flowdroid logger so that ours actually logs things
-mappings in (Compile,packageBin) ~= { (ms: Seq[(File, String)]) =>
+mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
   ms filter { case (file, toPath) =>
     println(file)
     toPath != "org/slf4j/impl/StaticLoggerBinder.class"
   }
 }
 
-mappings in (Test,packageBin) ~= { (ms: Seq[(File, String)]) =>
+mappings in (Test, packageBin) ~= { (ms: Seq[(File, String)]) =>
   ms filter { case (file, toPath) =>
     toPath != "org/slf4j/impl/StaticLoggerBinder.class"
   }
@@ -79,7 +76,7 @@ test in assembly := {}
 // ignore duplicate slf4j during assembly of fat jar
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-  case x => MergeStrategy.first
+  case x                             => MergeStrategy.first
 }
 
 mainClass in assembly := Some("edu.colorado.plv.bounder.Driver")
